@@ -322,3 +322,18 @@ def body(
 
     return inner
 
+
+class Router:
+    def __init__(self, prefix=""):
+        self.routes = []
+        self.prefix = prefix
+
+    def add_route(self, method, path, handler):
+        full_path = self.prefix + path
+        self.routes.append((method, full_path, handler))  
+
+    def get(self, path):
+        def decorator(handler):
+            self.add_route("GET", path, handler)
+            return handler
+        return decorator
